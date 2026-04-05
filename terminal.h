@@ -2,4 +2,5 @@
 #define TERMINAL_H
 #include "types.h"
 #define VGA_ADDRESS 0xB8000
+void terminal_setcolor(uint8_t color);
 #endif
