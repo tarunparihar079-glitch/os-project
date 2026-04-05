@@ -1,3 +1,8 @@
+#include "terminal.h"
+#include "gdt.h"
+
 void kernel_main(void) {
-    // OS will start here
+    init_gdt();
+    terminal_initialize();
+    terminal_writestring("FirstOS/Users> ");
 }
