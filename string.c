@@ -15,3 +15,8 @@ int strcmp(const char* s1, const char* s2) {
     }
     return *(const unsigned char*)s1 - *(const unsigned char*)s2;
 }
+char* strcpy(char* dest, const char* src) {
+    char* saved = dest;
+    while ((*dest++ = *src++) != '\0');
+    return saved;
+}
