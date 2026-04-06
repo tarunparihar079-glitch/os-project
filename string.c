@@ -25,3 +25,9 @@ void* memcpy(void* dest, const void* src, int num) {
     while (num--) *d++ = *s++;
     return dest;
 }
+void itoa(int n, char* str) {
+    int i = 0;
+    if(n == 0) { str[0] = '0'; str[1] = '\0'; return; }
+    while (n > 0) { str[i++] = (n % 10) + '0'; n /= 10; }
+    str[i] = '\0';
+}
