@@ -20,3 +20,8 @@ char* strcpy(char* dest, const char* src) {
     while ((*dest++ = *src++) != '\0');
     return saved;
 }
+void* memcpy(void* dest, const void* src, int num) {
+    char* d = dest; const char* s = src;
+    while (num--) *d++ = *s++;
+    return dest;
+}
