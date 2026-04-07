@@ -9,4 +9,5 @@ struct idt_entry_struct {
     uint16_t base_hi;
 } __attribute__((packed));
 void init_idt();
+void pic_remap();
 #endif
