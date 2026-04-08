@@ -7,4 +7,7 @@ void kernel_main(void) {
     init_idt();
     terminal_initialize();
     terminal_writestring("FirstOS/Users> ");
+    while(1) {
+        // OS stays awake
+    }
 }
