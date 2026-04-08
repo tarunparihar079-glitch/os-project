@@ -7,6 +7,9 @@ void shell_input(char c) {
     if (cmd_idx < 255 && c != '\b') {
         cmd_buffer[cmd_idx++] = c;
     }
+    if (c == '\n') {
+        execute_command();
+    }
 }
 void execute_command() {
     cmd_buffer[cmd_idx] = '\0'; // End string
