@@ -31,3 +31,10 @@ void terminal_initialize(void) {
     
     update_cursor(0, 0);
 }
+void terminal_writechar(char c) {
+    if (c == '\n') {
+        terminal_column = 0;
+        terminal_row++;
+        return;
+    }
+}
