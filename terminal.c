@@ -38,3 +38,8 @@ void terminal_writechar(char c) {
         return;
     }
 }
+void scroll_screen() {
+    if (terminal_row >= 25) {
+        terminal_row = 24;
+    }
+}
