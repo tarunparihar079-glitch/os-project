@@ -1,11 +1,20 @@
-OBJS = kernel.o gdt.o idt.o keyboard.o shell.o
 CC = gcc
 CFLAGS = -m32 -fno-pie -ffreestanding -nostdlib
-kernel.o: kernel.c
-	$(CC) $(CFLAGS) -c kernel.c -o kernel.o
-idt.o: idt.c
-	$(CC) $(CFLAGS) -c idt.c -o idt.o
-keyboard.o: keyboard.c
-	$(CC) $(CFLAGS) -c keyboard.c -o keyboard.o
-shell.o: shell.c
-	$(CC) $(CFLAGS) -c shell.c -o shell.o
+AS = nasm
+ASFLAGS = -f elf32
+
+OBJS = boot.o kernel.o terminal.o string.o gdt.o idt.o keyboard.o shell.o
+
+all: FirstOS.bin
+
+FirstOS.bin: $(OBJS) linker.ld
+	ld -m elf_i386 -T linker.ld -o FirstOS.bin $(OBJS)
+
+boot.o: boot.asm
+	$(AS) $(ASFLAGS) boot.asm -o boot.o
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f *.o FirstOS.bin
