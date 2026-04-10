@@ -3,7 +3,11 @@
 
 static int terminal_row;
 static int terminal_column;
-uint8_t terminal_color;
+uint8_t terminal_color = 15;
+
+void terminal_setcolor(uint8_t color) {
+    terminal_color = color;
+}
 
 void update_cursor(int x, int y) {
     uint16_t pos = y * 80 + x;
@@ -16,6 +20,7 @@ void update_cursor(int x, int y) {
 void terminal_initialize(void) {
     terminal_row = 0;
     terminal_column = 0;
+    terminal_color = 15;
     uint16_t* terminal_buffer = (uint16_t*) 0xB8000;
     for (int y = 0; y < 25; y++) {
         for (int x = 0; x < 80; x++) {
@@ -35,27 +40,19 @@ void terminal_putchar(char c) {
         update_cursor(terminal_column, terminal_row);
         return;
     }
-    // Backspace logic
     if (c == '\b') {
-        if (terminal_column > 0) {
-            terminal_column--;
-        } else if (terminal_row > 0) {
-            terminal_row--;
-            terminal_column = 79;
-        }
+        if (terminal_column > 0) terminal_column--;
+        else if (terminal_row > 0) { terminal_row--; terminal_column = 79; }
         const int index = terminal_row * 80 + terminal_column;
-        terminal_buffer[index] = (uint16_t) ' ' | (uint16_t) 15 << 8;
+        terminal_buffer[index] = (uint16_t) ' ' | (uint16_t) terminal_color << 8;
         update_cursor(terminal_column, terminal_row);
         return;
     }
     
     const int index = terminal_row * 80 + terminal_column;
-    terminal_buffer[index] = (uint16_t) c | (uint16_t) 15 << 8;
+    terminal_buffer[index] = (uint16_t) c | (uint16_t) (terminal_color == 0 ? 15 : terminal_color) << 8;
     terminal_column++;
-    if(terminal_column >= 80) { 
-        terminal_column = 0; 
-        terminal_row++; 
-    }
+    if(terminal_column >= 80) { terminal_column = 0; terminal_row++; }
     update_cursor(terminal_column, terminal_row);
 }
 
